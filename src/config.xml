@@ -1,0 +1,22 @@
+<widget xmlns:rim="http://www.blackberry.com/ns/widgets" version="1.0.0" xmlns="http://www.w3.org/ns/widgets">
+  <rim:navigation mode="focus" />
+  <name>Octopart Search</name>
+  <description>An example of how to use Octopart API</description>
+  <author href="https://github.com/imrahil">Jarek Szczepanski</author>
+  <content src="index.html" />
+
+<!--
+  <rim:splash src="images\bb10-splash-landscape.png" />
+  <rim:splash src="images\bb10-splash-portrait.png" />
+  <rim:loadingScreen backgroundImage="images\background.png" foregroundImage="images\hippo.png" onFirstLaunch="true">
+    <rim:transitionEffect type="fadeIn" />
+  </rim:loadingScreen>
+-->
+
+  <access uri="http://www.octopart.com" subdomains="true" />
+  <access uri="http://octopart.com" subdomains="true" />
+
+  <feature id="blackberry.system.event" />
+  <feature id="blackberry.app" />
+  <feature id="blackberry.app.event"/>
+</widget>
