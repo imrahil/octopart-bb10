@@ -1,6 +1,9 @@
 var api_url = 'http://octopart.com/api/v2/';
 var api_key = 'ac357482';
 
+var currentCategory = 4161;
+var previousCategory = 4161;
+
 bb.init({bb10HighlightColor: "#B2CC00",
     bb10ActionBarDark: true,
     bb10ControlsDark: true,
@@ -23,7 +26,7 @@ bb.init({bb10HighlightColor: "#B2CC00",
     {
         if (id == 'allCategories')
         {
-            loadAllCategories();
+            loadCategory(currentCategory);
         }
     }
 })
@@ -38,9 +41,12 @@ function performSearch()
 
 }
 
-function loadAllCategories()
+function loadCategory(catId)
 {
-    $.getJSON(jsonp_uri('categories/get?id=4161'), function (data)
+    $('#actind').show();
+    document.getElementById('categoriesList').clear();
+
+    $.getJSON(jsonp_uri('categories/get?id=' + catId), function (data)
     {
         var categories = [];
 
@@ -49,13 +55,13 @@ function loadAllCategories()
             categories.push(val);
         });
 
-        loadCategoryInfo(categories);
+        loadSubCategories(categories);
     });
 }
 
-function loadCategoryInfo(ids)
+function loadSubCategories(multi_ids)
 {
-    $.getJSON(jsonp_uri('categories/get_multi?ids=' + JSON.stringify(ids)), function (data)
+    $.getJSON(jsonp_uri('categories/get_multi?ids=' + JSON.stringify(multi_ids)), function (data)
     {
         $('#actind').hide();
 
@@ -69,7 +75,13 @@ function loadCategoryInfo(ids)
             singleItem.setAttribute('data-bb-type', 'item');
             singleItem.setAttribute('data-bb-title', val.nodename);
             singleItem.innerHTML = "(" + addCommas(val.num_parts) + ")";
-//            singleItem.onclick = function() {alert('clicked');};
+
+            singleItem.onclick = function ()
+            {
+                previousCategory = currentCategory;
+                currentCategory = val.id;
+                bb.pushScreen('categories.html', 'allCategories');
+            };
 
             categoriesList.appendItem(singleItem);
         });
